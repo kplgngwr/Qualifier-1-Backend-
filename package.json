@@ -1,13 +1,14 @@
 {
   "name": "my-backend-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for processing data",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/kplgngwr/Qualifier-1-Backend-#readme",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "cors": "^2.8.5"
   }
 }
