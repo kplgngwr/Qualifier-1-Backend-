@@ -8,6 +8,8 @@ CORS(app)
 def process_data():
     try:
         data = request.json.get('data', [])
+        # Convert all items to strings to ensure consistent processing
+        data = [str(item) for item in data]
         numbers = [item for item in data if item.isdigit()]
         alphabets = [item for item in data if item.isalpha()]
         highest_alphabet = max(alphabets, key=str.lower) if alphabets else None
@@ -29,3 +31,7 @@ def process_data():
 @app.route('/api/bfhl', methods=['GET'])
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
+
+# Add this for Vercel deployment
+if __name__ == '__main__':
+    app.run()
