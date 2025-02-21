@@ -4,6 +4,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
 @app.route('/api/bfhl', methods=['POST'])
 def process_data():
     try:
@@ -32,6 +36,11 @@ def process_data():
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
 
-@app.route('/')
-def health_check():
-    return jsonify({"status": "healthy"}), 200
+# Error handling
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({"error": "Internal Server Error"}), 500
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Not Found"}), 404
