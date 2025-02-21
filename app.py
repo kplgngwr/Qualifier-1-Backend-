@@ -44,3 +44,7 @@ def internal_error(error):
 @app.errorhandler(404)
 def not_found_error(error):
     return jsonify({"error": "Not Found"}), 404
+
+# WSGI handler
+def create_app():
+    return app

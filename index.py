@@ -1,4 +1,6 @@
 from app import app
 
-# This is for Vercel serverless deployment
-handler = app 
+def handler(request):
+    return app(request)
+
+# This is for Vercel serverless deployment 
