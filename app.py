@@ -11,12 +11,24 @@ def health_check():
 @app.route('/api/bfhl', methods=['POST'])
 def process_data():
     try:
+        # Get data from request and ensure it's a list
         data = request.json.get('data', [])
-        # Convert all items to strings to ensure consistent processing
-        data = [str(item) for item in data]
+        if not isinstance(data, list):
+            raise ValueError("Input 'data' must be an array")
+
+        # Convert all items to strings and strip whitespace
+        data = [str(item).strip() for item in data]
+
+        # Filter numbers and alphabets
         numbers = [item for item in data if item.isdigit()]
-        alphabets = [item for item in data if item.isalpha()]
-        highest_alphabet = max(alphabets, key=str.lower) if alphabets else None
+        alphabets = [item for item in data if len(item) == 1 and item.isalpha()]
+
+        # Find highest alphabet (case insensitive)
+        highest_alphabet = []
+        if alphabets:
+            # Sort alphabets case-insensitively and take the last one
+            sorted_alphabets = sorted(alphabets, key=str.lower)
+            highest_alphabet = [sorted_alphabets[-1]]
 
         response = {
             "is_success": True,
@@ -25,12 +37,15 @@ def process_data():
             "roll_number": "ABCD123",
             "numbers": numbers,
             "alphabets": alphabets,
-            "highest_alphabet": [highest_alphabet] if highest_alphabet else []
+            "highest_alphabet": highest_alphabet
         }
         return jsonify(response), 200
 
     except Exception as e:
-        return jsonify({"is_success": False, "error": str(e)}), 400
+        return jsonify({
+            "is_success": False,
+            "error": str(e)
+        }), 400
 
 @app.route('/api/bfhl', methods=['GET'])
 def get_operation_code():
