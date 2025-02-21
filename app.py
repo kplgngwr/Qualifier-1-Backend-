@@ -32,6 +32,6 @@ def process_data():
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
 
-# Add this for Vercel deployment
-if __name__ == '__main__':
-    app.run()
+@app.route('/')
+def health_check():
+    return jsonify({"status": "healthy"}), 200
