@@ -30,5 +30,9 @@ def process_data():
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
 
+# Export the app as a serverless function
+def handler(request, response):
+    return app(request.environ, response.start_response)
+
 if __name__ == '__main__':
     app.run(debug=True)
