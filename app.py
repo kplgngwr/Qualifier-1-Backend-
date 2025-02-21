@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/bfhl', methods=['POST'])
+@app.route('/api/bfhl', methods=['POST'])
 def process_data():
     try:
         data = request.json.get('data', [])
@@ -17,22 +17,15 @@ def process_data():
             "user_id": "john_doe_17091999",
             "email": "john@xyz.com",
             "roll_number": "ABCD123",
-            "numbers": ["1", "334", "4"],
-            "alphabets": ["M"],
-            "highest_alphabet": ["M"] if highest_alphabet else []
+            "numbers": numbers,
+            "alphabets": alphabets,
+            "highest_alphabet": [highest_alphabet] if highest_alphabet else []
         }
         return jsonify(response), 200
 
     except Exception as e:
         return jsonify({"is_success": False, "error": str(e)}), 400
 
-@app.route('/bfhl', methods=['GET'])
+@app.route('/api/bfhl', methods=['GET'])
 def get_operation_code():
     return jsonify({"operation_code": 1}), 200
-
-# Export the app as a serverless function
-def handler(request, response):
-    return app(request.environ, response.start_response)
-
-if __name__ == '__main__':
-    app.run(debug=True)
